@@ -1,0 +1,225 @@
+/* Reference Library & Citation Manager Styles */
+
+.references-layout {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+/* Collections Sidebar */
+.collections-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.collections-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-top: 0.5rem;
+}
+
+.collection-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.65rem 0.75rem;
+  border-radius: var(--border-radius-sm);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: var(--transition-fast);
+  background: transparent;
+  border: none;
+  font-size: 0.9rem;
+  text-align: left;
+  width: 100%;
+}
+
+.collection-item:hover {
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text-main);
+}
+
+.collection-item.active {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-main);
+  font-weight: 500;
+}
+
+.collection-count {
+  font-size: 0.75rem;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 0.15rem 0.4rem;
+  border-radius: 20px;
+}
+
+.new-collection-form {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.new-collection-form .glass-input {
+  height: 36px;
+  font-size: 0.85rem;
+}
+
+/* References List */
+.references-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.references-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.collection-title-area h2 {
+  font-size: 1.4rem;
+}
+
+.collection-actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.reference-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.reference-meta-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1.5rem;
+}
+
+.reference-details {
+  flex: 1;
+}
+
+.reference-title {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--text-main);
+  margin-bottom: 0.35rem;
+}
+
+.reference-authors {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+/* Citation Section */
+.citation-section {
+  background: rgba(10, 15, 30, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: var(--border-radius-sm);
+  padding: 1rem;
+  margin-top: 0.5rem;
+}
+
+.citation-tabs {
+  display: flex;
+  gap: 0.25rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
+  overflow-x: auto;
+}
+
+.citation-tab {
+  background: transparent;
+  border: none;
+  color: var(--text-sub);
+  padding: 0.25rem 0.65rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: var(--transition-fast);
+}
+
+.citation-tab:hover {
+  color: var(--text-main);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.citation-tab.active {
+  color: var(--primary);
+  background: rgba(147, 51, 234, 0.12);
+}
+
+.citation-display-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 0.75rem 1rem;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.02);
+}
+
+.citation-text {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  word-break: break-all;
+  user-select: all;
+  flex: 1;
+}
+
+.citation-text.bibtex {
+  white-space: pre-wrap;
+  line-height: 1.4;
+}
+
+/* Annotations & Notes Section */
+.notes-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding-top: 1rem;
+}
+
+.notes-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.notes-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.notes-title svg {
+  width: 14px;
+  height: 14px;
+}
+
+.save-indicator {
+  font-size: 0.75rem;
+  color: var(--text-sub);
+}
+
+.notes-textarea {
+  min-height: 80px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  background: rgba(0, 0, 0, 0.15);
+}

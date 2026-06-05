@@ -1,0 +1,15 @@
+/* Custom reset to override default Vite template styles */
+@import './styles/variables.css';
+@import './styles/app.css';
+
+#root {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  text-align: left !important;
+  border-inline: none !important;
+  min-height: 100vh !important;
+  display: flex !important;
+  flex-direction: column !important;
+  box-sizing: border-box !important;
+}
