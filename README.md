@@ -1,45 +1,119 @@
-# Netflix Content Analysis
+﻿# GraniteAgent: AI Research Assistant
 
-End-to-end analysis of the Kaggle Netflix Titles dataset (8,793 titles), built four ways — Excel, SQL, Python, and Power BI — to demonstrate the same analysis across the core data analytics toolset.
+An AI-powered research workspace that helps you search academic literature, save references, generate research hypotheses and draft report sections, powered by **IBM Granite** models on watsonx.ai.
 
-## Problem Statement
-Netflix's content catalog spans thousands of titles across countries, genres, and years. This project answers:
-- What's the mix of Movies vs TV Shows?
-- Which content ratings and genres dominate the catalog?
-- Which countries contribute the most content?
-- How has content addition volume changed year over year?
+**Live demo:** https://research-agent-w0mg.onrender.com/
 
-## Dataset
-- **Source:** [Kaggle — Netflix Movies and TV Shows](https://www.kaggle.com/datasets/shivamb/netflix-shows)
-- **Size:** 8,793 titles, 12 raw columns (title, director, cast, country, date_added, rating, duration, listed_in, etc.)
+> The demo runs on a free Render instance, so the first load after a period of inactivity can take 30 to 60 seconds while the server wakes up.
 
-## Tools & Deliverables
+Built as part of the IBM SkillsBuild internship.
 
-| Tool | File | What it shows |
+![GraniteAgent screenshot](docs/screenshot.png)
+
+## Features
+
+- **Literature Search:** query the public arXiv catalog with sorting options (relevance, date) and get titles, authors, abstracts and direct PDF links.
+- **Reference Library:** save papers you find and keep them together in one place.
+- **Hypothesis Lab:** generate structured research hypotheses with rationale, experiment protocol and key variables.
+- **Report Workspace:** draft report sections such as literature reviews using the saved references.
+- **Paper Summaries:** summarize abstracts into objective, method, findings and limitations.
+- **Two LLM modes:**
+  - **Simulator (default):** works out of the box with demo responses, no credentials needed.
+  - **Live Granite:** add your IBM watsonx.ai API key and project ID in **Settings & API** to get real completions from `ibm/granite-3-8b-instruct`.
+- **Offline-friendly search:** if the arXiv API is rate-limited or unreachable, the server falls back to a small built-in paper catalog so the app keeps working.
+
+## Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Frontend | React 19, Vite |
+| Backend | Node.js, Express 5 |
+| AI | IBM watsonx.ai (Granite 3 8B Instruct) |
+| Data source | arXiv API |
+| Hosting | Render |
+
+## How It Works
+
+```
+Browser (React)
+   |  /api/search            -> Express -> arXiv API (XML parsed to JSON)
+   |  /api/llm/generate      -> Express -> IBM Cloud IAM token -> watsonx.ai text chat
+   v
+Simulator mode (no credentials) returns demo responses
+```
+
+In production, Express serves the built React app (`dist/`) and the API from a single service, so no CORS setup or separate frontend hosting is needed.
+
+### API Endpoints
+
+| Method | Route | Description |
 |---|---|---|
-| **Excel** | `netflix_analysis.xlsx` | Live dashboard with COUNTIF/COUNTIFS/SUMPRODUCT formulas, 5 linked charts, and a Key Findings summary |
-| **SQL** | `sql/netflix_analysis.sql` | Schema + GROUP BY/aggregate queries replicating every dashboard metric, plus 4 bonus queries |
-| **Python** | `python/netflix_analysis.ipynb` | pandas cleaning + matplotlib/seaborn charts, built to run in Google Colab |
-| **Power BI** | `Netflix_Dashboard.pbix`, `powerbi/` | Interactive dashboard with slicers (type, release year), custom Netflix-themed styling, and DAX measures |
+| `GET` | `/api/search` | Search arXiv. Query params: `q`, `start`, `maxResults`, `sortBy`, `sortOrder` |
+| `POST` | `/api/llm/generate` | Generate text with Granite. Body: `messages`, `promptType`, `customPrompt` |
 
-## Key Findings
-- **Movies dominate** the catalog at 69.7% (6,129 titles) vs TV Shows at 30.3% (2,664).
-- **Mature content leads:** TV-MA (3,205) and TV-14 (2,157) together make up over 60% of all titles.
-- **India is the #2 content source** (1,008 titles) behind the U.S. (3,205) — ahead of the UK (627) — showing Netflix's strong investment in Indian content.
-- **International Movies (2,752) and Dramas (2,426)** are the top two genres, together over 45% of genre tags.
-- **Content additions peaked in 2019** (2,016 titles added) and declined through 2020-21, likely tied to pandemic-era production slowdowns.
+IBM credentials are sent per request from the browser through the `x-ibm-apikey`, `x-ibm-projectid`, `x-ibm-region` and `x-ibm-modelid` headers. They are not stored on the server.
 
-## How to Use
-- **Excel:** open `netflix_analysis.xlsx`, all charts and summary tables recalculate live from the Raw Data sheet.
-- **SQL:** run `sql/netflix_analysis.sql` against MySQL/PostgreSQL after loading `python/netflix_titles.csv` into the `netflix_titles` table.
-- **Python:** open `python/netflix_analysis.ipynb` in Google Colab, upload `python/netflix_titles.csv` when prompted, and run all cells.
-- **Power BI:** open `Netflix_Dashboard.pbix` in Power BI Desktop. Data sources point to `powerbi/netflix_titles_clean.csv` and `powerbi/netflix_genres.csv` — see `powerbi/POWERBI_GUIDE.md` for the full build steps and DAX measures if rebuilding from scratch.
+## Run Locally
 
-## Power BI Dashboard Preview
-The dashboard includes 4 KPI cards, a content-type donut chart, top genres/countries/ratings bar charts, a year-over-year trend chart, and interactive slicers (content type, release year range), all styled with a custom Netflix red/black theme.
+**Requirements:** Node.js 20 or newer.
 
-## Skills Demonstrated
-Excel (formulas, pivot-style summaries, chart building) · SQL (aggregation, joins, window-style grouping) · Python (pandas, data cleaning, matplotlib/seaborn visualization) · Power BI (data modeling, DAX measures, interactive dashboards, custom theming)
+```bash
+git clone https://github.com/siddharthpatwal26/Research-Agent-.git
+cd Research-Agent-
+npm install
+```
 
----
-*Built by Siddharth as part of data analytics portfolio development.*
+**Development** (two terminals):
+
+```bash
+node server.js     # backend on http://localhost:5000
+npm run dev        # frontend on http://localhost:5173 (proxies /api to the backend)
+```
+
+**Production build** (single server):
+
+```bash
+npm run build
+npm start          # everything on http://localhost:5000
+```
+
+## Deploy on Render
+
+1. Push the repo to GitHub.
+2. On Render, create a **New Web Service** and select the repository.
+3. Build command: `npm install --include=dev && npm run build`
+4. Start command: `npm start`
+5. No environment variables are required.
+
+## Using Live Granite
+
+1. Create a watsonx.ai project on IBM Cloud and note the **project ID**.
+2. Create an IBM Cloud **API key**.
+3. Open **Settings & API** in the app and enter the key, project ID and region.
+4. The header badge switches from Simulation Mode to live mode.
+
+Never commit API keys to the repository.
+
+## Project Structure
+
+```
+.
+â”œâ”€â”€ server.js          # Express API + static file server
+â”œâ”€â”€ src/               # React application
+â”œâ”€â”€ public/            # Static assets
+â”œâ”€â”€ index.html         # Vite entry
+â”œâ”€â”€ vite.config.js     # Vite config with dev proxy for /api
+â””â”€â”€ package.json
+```
+
+## Roadmap
+
+- Server-side credentials option for a hosted live Granite mode
+- Export reports to PDF and Word
+- Citation formatting (APA, IEEE)
+- Persistent reference library with user accounts
+
+## Author
+
+**Siddharth**
+GitHub: [@siddharthpatwal26](https://github.com/siddharthpatwal26)
