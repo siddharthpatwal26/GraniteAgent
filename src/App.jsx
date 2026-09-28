@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+﻿import { useState, useEffect } from 'react';
 import './styles/app.css';
 import './styles/dashboard.css';
 import './styles/references.css';
@@ -37,7 +37,7 @@ const DownloadIcon = () => (
   <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
 );
 
-const API_BASE = 'http://localhost:5000/api';
+const API_BASE = '/api';
 
 function App() {
   // Navigation
@@ -1051,7 +1051,7 @@ ${referencesContext || 'No references selected. Write a general draft.'}`
 
                   {isSaved && (
                     <div className="badge badge-cyan" style={{ marginTop: '1rem', padding: '0.65rem 1rem', fontSize: '0.85rem' }}>
-                      ✓ Credentials stored securely in local browser memory!
+                      âœ“ Credentials stored securely in local browser memory!
                     </div>
                   )}
                 </form>
@@ -1152,3 +1152,4 @@ ${referencesContext || 'No references selected. Write a general draft.'}`
 }
 
 export default App;
+

@@ -2,6 +2,11 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
 dotenv.config();
 
 const app = express();
@@ -344,6 +349,14 @@ app.post('/api/llm/generate', async (req, res) => {
     res.status(500).json({ success: false, error: error.message });
   }
 });
+
+
+// Serve React build
+app.use(express.static(path.join(__dirname, 'dist')));
+app.use((req, res) => {
+  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+});
+
 
 // Start Server
 app.listen(PORT, () => {
