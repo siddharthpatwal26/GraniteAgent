@@ -58,7 +58,7 @@ IBM credentials are sent per request from the browser through the `x-ibm-apikey`
 **Requirements:** Node.js 20 or newer.
 
 ```bash
-git clone https://github.com/siddharthpatwal26/Research-Agent-.git
+git clone https://github.com/siddharthpatwal26/GraniteAgent.git
 cd Research-Agent-
 npm install
 ```
