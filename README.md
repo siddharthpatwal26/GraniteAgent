@@ -2,7 +2,7 @@
 
 An AI-powered research workspace that helps you search academic literature, save references, generate research hypotheses and draft report sections, powered by **IBM Granite** models on watsonx.ai.
 
-**Live demo:** https://research-agent-w0mg.onrender.com/
+**Live demo:** https://graniteagent.onrender.com/
 
 > The demo runs on a free Render instance, so the first load after a period of inactivity can take 30 to 60 seconds while the server wakes up.
 
